@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fight.dao.CarInfoMapper">
+  <resultMap id="BaseResultMap" type="com.fight.model.CarInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="car_type" property="carType" jdbcType="VARCHAR" />
+  <result column="car_no" property="carNo" jdbcType="VARCHAR" />
+  <result column="company_id" property="companyId" jdbcType="INTEGER" />
+  <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+     id,car_type,car_no,company_id,create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.fight.model.CarInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from car_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="startRow >= 0 and pageRows > 0">
+      limit ${startRow},${pageRows}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+     from car_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+   delete from car_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fight.model.CarInfoExample">
+    delete from car_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fight.model.CarInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+      insert into car_info (car_type,car_no,company_id,create_time)
+      values (	#{id,jdbcType=INTEGER},	#{carType,jdbcType=VARCHAR},	#{carNo,jdbcType=VARCHAR},	#{companyId,jdbcType=INTEGER},	#{createTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fight.model.CarInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into car_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null" >
+	  id,
+ </if>
+<if test="carType != null" >
+	  car_type,
+ </if>
+<if test="carNo != null" >
+	  car_no,
+ </if>
+<if test="companyId != null" >
+	  company_id,
+ </if>
+<if test="createTime != null" >
+	  create_time
+ </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+         <if test="id != null" >
+	 #{id,jdbcType=INTEGER},
+	 </if>
+  <if test="carType != null" >
+	 #{carType,jdbcType=VARCHAR},
+	 </if>
+  <if test="carNo != null" >
+	 #{carNo,jdbcType=VARCHAR},
+	 </if>
+  <if test="companyId != null" >
+	 #{companyId,jdbcType=INTEGER},
+	 </if>
+  <if test="createTime != null" >
+	 #{createTime,jdbcType=VARCHAR},
+	 </if>
+
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fight.model.CarInfoExample" resultType="java.lang.Long">
+    select count(*) from car_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update car_info
+    <set>
+       <if test="record.id != null" >
+	 id = #{record.id,jdbcType=INTEGER},
+</if>
+ <if test="record.carType != null" >
+	 car_type = #{record.carType,jdbcType=VARCHAR},
+</if>
+ <if test="record.carNo != null" >
+	 car_no = #{record.carNo,jdbcType=VARCHAR},
+</if>
+ <if test="record.companyId != null" >
+	 company_id = #{record.companyId,jdbcType=INTEGER},
+</if>
+ <if test="record.createTime != null" >
+	 create_time = #{record.createTime,jdbcType=VARCHAR}
+</if>
+
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update car_info
+    set 
+    				id = #{record.id,jdbcType=INTEGER},	car_type = #{record.carType,jdbcType=VARCHAR},	car_no = #{record.carNo,jdbcType=VARCHAR},	company_id = #{record.companyId,jdbcType=INTEGER},	create_time = #{record.createTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fight.model.CarInfo">
+    update car_info
+    <set>
+       <if test="id != null" >
+	 id = #{id,jdbcType=INTEGER},
+</if>
+ <if test="carType != null" >
+	 car_type = #{carType,jdbcType=VARCHAR},
+</if>
+ <if test="carNo != null" >
+	 car_no = #{carNo,jdbcType=VARCHAR},
+</if>
+ <if test="companyId != null" >
+	 company_id = #{companyId,jdbcType=INTEGER},
+</if>
+ <if test="createTime != null" >
+	 create_time = #{createTime,jdbcType=VARCHAR}
+</if>
+
+    </set>
+     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fight.model.CarInfo">
+    update car_info
+    set 
+     			id = #{id,jdbcType=INTEGER},	car_type = #{carType,jdbcType=VARCHAR},	car_no = #{carNo,jdbcType=VARCHAR},	company_id = #{companyId,jdbcType=INTEGER},	create_time = #{createTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

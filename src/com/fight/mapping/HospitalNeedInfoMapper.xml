@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fight.dao.HospitalNeedInfoMapper">
+  <resultMap id="BaseResultMap" type="com.fight.model.HospitalNeedInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="wz_type" property="wzType" jdbcType="INTEGER" />
+  <result column="wz_name" property="wzName" jdbcType="VARCHAR" />
+  <result column="wz_num" property="wzNum" jdbcType="INTEGER" />
+  <result column="remark" property="remark" jdbcType="VARCHAR" />
+  <result column="hospital_id" property="hospitalId" jdbcType="INTEGER" />
+  <result column="address" property="address" jdbcType="VARCHAR" />
+  <result column="complete_num" property="completeNum" jdbcType="INTEGER" />
+  <result column="need_status" property="needStatus" jdbcType="INTEGER" />
+  <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+     id,wz_type,wz_name,wz_num,remark,hospital_id,address,complete_num,need_status,create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.fight.model.HospitalNeedInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from hospital_need_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="startRow >= 0 and pageRows > 0">
+      limit ${startRow},${pageRows}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+     from hospital_need_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+   delete from hospital_need_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fight.model.HospitalNeedInfoExample">
+    delete from hospital_need_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fight.model.HospitalNeedInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+      insert into hospital_need_info (wz_type,wz_name,wz_num,remark,hospital_id,address,complete_num,need_status,create_time)
+      values (	#{id,jdbcType=INTEGER},	#{wzType,jdbcType=INTEGER},	#{wzName,jdbcType=VARCHAR},	#{wzNum,jdbcType=INTEGER},	#{remark,jdbcType=VARCHAR},	#{hospitalId,jdbcType=INTEGER},	#{address,jdbcType=VARCHAR},	#{completeNum,jdbcType=INTEGER},	#{needStatus,jdbcType=INTEGER},	#{createTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fight.model.HospitalNeedInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hospital_need_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null" >
+	  id,
+ </if>
+<if test="wzType != null" >
+	  wz_type,
+ </if>
+<if test="wzName != null" >
+	  wz_name,
+ </if>
+<if test="wzNum != null" >
+	  wz_num,
+ </if>
+<if test="remark != null" >
+	  remark,
+ </if>
+<if test="hospitalId != null" >
+	  hospital_id,
+ </if>
+<if test="address != null" >
+	  address,
+ </if>
+<if test="completeNum != null" >
+	  complete_num,
+ </if>
+<if test="needStatus != null" >
+	  need_status,
+ </if>
+<if test="createTime != null" >
+	  create_time
+ </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+         <if test="id != null" >
+	 #{id,jdbcType=INTEGER},
+	 </if>
+  <if test="wzType != null" >
+	 #{wzType,jdbcType=INTEGER},
+	 </if>
+  <if test="wzName != null" >
+	 #{wzName,jdbcType=VARCHAR},
+	 </if>
+  <if test="wzNum != null" >
+	 #{wzNum,jdbcType=INTEGER},
+	 </if>
+  <if test="remark != null" >
+	 #{remark,jdbcType=VARCHAR},
+	 </if>
+  <if test="hospitalId != null" >
+	 #{hospitalId,jdbcType=INTEGER},
+	 </if>
+  <if test="address != null" >
+	 #{address,jdbcType=VARCHAR},
+	 </if>
+  <if test="completeNum != null" >
+	 #{completeNum,jdbcType=INTEGER},
+	 </if>
+  <if test="needStatus != null" >
+	 #{needStatus,jdbcType=INTEGER},
+	 </if>
+  <if test="createTime != null" >
+	 #{createTime,jdbcType=VARCHAR},
+	 </if>
+
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fight.model.HospitalNeedInfoExample" resultType="java.lang.Long">
+    select count(*) from hospital_need_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hospital_need_info
+    <set>
+       <if test="record.id != null" >
+	 id = #{record.id,jdbcType=INTEGER},
+</if>
+ <if test="record.wzType != null" >
+	 wz_type = #{record.wzType,jdbcType=INTEGER},
+</if>
+ <if test="record.wzName != null" >
+	 wz_name = #{record.wzName,jdbcType=VARCHAR},
+</if>
+ <if test="record.wzNum != null" >
+	 wz_num = #{record.wzNum,jdbcType=INTEGER},
+</if>
+ <if test="record.remark != null" >
+	 remark = #{record.remark,jdbcType=VARCHAR},
+</if>
+ <if test="record.hospitalId != null" >
+	 hospital_id = #{record.hospitalId,jdbcType=INTEGER},
+</if>
+ <if test="record.address != null" >
+	 address = #{record.address,jdbcType=VARCHAR},
+</if>
+ <if test="record.completeNum != null" >
+	 complete_num = #{record.completeNum,jdbcType=INTEGER},
+</if>
+ <if test="record.needStatus != null" >
+	 need_status = #{record.needStatus,jdbcType=INTEGER},
+</if>
+ <if test="record.createTime != null" >
+	 create_time = #{record.createTime,jdbcType=VARCHAR}
+</if>
+
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hospital_need_info
+    set 
+    				id = #{record.id,jdbcType=INTEGER},	wz_type = #{record.wzType,jdbcType=INTEGER},	wz_name = #{record.wzName,jdbcType=VARCHAR},	wz_num = #{record.wzNum,jdbcType=INTEGER},	remark = #{record.remark,jdbcType=VARCHAR},	hospital_id = #{record.hospitalId,jdbcType=INTEGER},	address = #{record.address,jdbcType=VARCHAR},	complete_num = #{record.completeNum,jdbcType=INTEGER},	need_status = #{record.needStatus,jdbcType=INTEGER},	create_time = #{record.createTime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fight.model.HospitalNeedInfo">
+    update hospital_need_info
+    <set>
+       <if test="id != null" >
+	 id = #{id,jdbcType=INTEGER},
+</if>
+ <if test="wzType != null" >
+	 wz_type = #{wzType,jdbcType=INTEGER},
+</if>
+ <if test="wzName != null" >
+	 wz_name = #{wzName,jdbcType=VARCHAR},
+</if>
+ <if test="wzNum != null" >
+	 wz_num = #{wzNum,jdbcType=INTEGER},
+</if>
+ <if test="remark != null" >
+	 remark = #{remark,jdbcType=VARCHAR},
+</if>
+ <if test="hospitalId != null" >
+	 hospital_id = #{hospitalId,jdbcType=INTEGER},
+</if>
+ <if test="address != null" >
+	 address = #{address,jdbcType=VARCHAR},
+</if>
+ <if test="completeNum != null" >
+	 complete_num = #{completeNum,jdbcType=INTEGER},
+</if>
+ <if test="needStatus != null" >
+	 need_status = #{needStatus,jdbcType=INTEGER},
+</if>
+ <if test="createTime != null" >
+	 create_time = #{createTime,jdbcType=VARCHAR}
+</if>
+
+    </set>
+     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fight.model.HospitalNeedInfo">
+    update hospital_need_info
+    set 
+     			id = #{id,jdbcType=INTEGER},	wz_type = #{wzType,jdbcType=INTEGER},	wz_name = #{wzName,jdbcType=VARCHAR},	wz_num = #{wzNum,jdbcType=INTEGER},	remark = #{remark,jdbcType=VARCHAR},	hospital_id = #{hospitalId,jdbcType=INTEGER},	address = #{address,jdbcType=VARCHAR},	complete_num = #{completeNum,jdbcType=INTEGER},	need_status = #{needStatus,jdbcType=INTEGER},	create_time = #{createTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
